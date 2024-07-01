@@ -28,8 +28,17 @@ jobs:
         if: ${{ matrix.arch == 'aarch64' }}
         uses: docker/setup-qemu-action@v1
 
+      - name: 'Install Python 3.7'
+        uses: MatteoH2O1999/setup-python@v4
+        if: ${{ matrix.os == 'macos-latest'}}
+        with:
+          python-version: '3.7'
+          allow-build: 'info'
+
       - name: Install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
 
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.16.5
@@ -43,7 +52,7 @@ jobs:
           CIBW_MANYLINUX_AARCH64_IMAGE: manylinux2014
 
       - name: Patch Install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         if: ${{ matrix.os == 'macos-latest'}}
         with:
           python-version: '3.8'
